@@ -1,0 +1,257 @@
+"use client"
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { FormField ,Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { useCredentialByType } from "@/features/credentials/hooks/use-credentials";
+import { CredentialType } from "@/generated/prisma";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useEffect } from "react";
+
+import { useForm } from "react-hook-form";
+import z from "zod";
+
+
+// export const AVAILABLE_MODELS = [
+//     "gemini-1.5-pro" ,
+//     "gemini-1.5-flash" ,
+//     "gemini-1.5-flash-8b" ,
+//     "gemini-1.0-pro" ,
+//     "gemini-pro"
+
+// ] as const ;
+
+const formschema = z.object({
+    variableName : z
+    .string()
+    .min(1 , {message : "Variable name is required"})
+    .regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/ , {message : "Invalid variable name. Use letters, numbers, underscores, and dollar signs. Cannot start with a number."}),
+   // model: z.enum(AVAILABLE_MODELS), // z.string().min(1 , {message : "Model selection is required"}) ,
+   credentialId:z.string().min(1,"Credential is required"),
+    systemPrompt: z.string().optional(),
+    userPrompt: z.string().min(1,"User prompt is required"), 
+});
+
+
+
+export type GeminiFormValues = z.infer<typeof formschema>
+
+interface Props {
+    open : boolean ;
+    onOpenChange : (open : boolean)=> void 
+    onSubmit : (values : z.infer<typeof formschema>)=> void;
+    defaultValues? : Partial<GeminiFormValues>;
+}
+
+export const GeminiDialog = ({
+    open , onOpenChange , onSubmit , defaultValues={}
+} : Props) =>{
+    const { data : credentials , isLoading: isLoadingCredentials } = useCredentialByType(CredentialType.GEMINI)
+
+    const form  = useForm<z.infer<typeof formschema>>({
+        resolver : zodResolver(formschema) ,
+        defaultValues : {
+            credentialId: defaultValues.credentialId || "" ,
+            variableName : defaultValues?.variableName || "" ,
+
+          //  model : defaultValues?.model || AVAILABLE_MODELS[0] ,
+            systemPrompt : defaultValues?.systemPrompt || "",
+            userPrompt : defaultValues?.userPrompt || ""
+        }
+    })
+
+    useEffect(()=>{
+        if(open){
+            form.reset({
+             credentialId: defaultValues.credentialId || "" ,
+            variableName : defaultValues?.variableName || "" ,
+          //  model : defaultValues?.model || AVAILABLE_MODELS[0] ,
+            systemPrompt : defaultValues?.systemPrompt || "",
+            userPrompt : defaultValues?.userPrompt || ""
+            })
+        }
+    },[open , defaultValues , form])
+
+
+
+    const watchVariableName = form.watch("variableName") || "myGemini"
+    // const watchMethod = form.watch("method")
+    // const showBodyfield = ["POST" , "PUT" , "PATCH"].includes(watchMethod) ;
+    const handleSubmit = (values : z.infer<typeof formschema>) =>{
+        onSubmit(values) ;
+        onOpenChange(false) ;
+    }
+    const credentialList = (credentials as any) || [];
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Gemini</DialogTitle>
+                    <DialogDescription>
+                        Configure settings for the Gemini node.
+                    </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 mt-4">
+                      
+                       <FormField control={form.control}
+                       name="variableName"
+                       render={({field})=>(
+                        <FormItem>
+                            <FormLabel>Variable Name</FormLabel>
+                            <FormControl>
+                            <Input placeholder="myGemini" {...field}/>
+                            </FormControl>
+                          
+                            <FormDescription>
+                              Use this name to reference the result in other nodes:{" "} 
+                              {`{{${watchVariableName}.aiResponseaaa.text}}`}  </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                       )}/>
+                      <FormField  control={form.control} name="credentialId" render={({field})=>(
+                        
+                                               <FormItem> <FormLabel>Gemini Credential</FormLabel>
+                    
+                                                <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isLoadingCredentials|| credentialList.length===0 }>
+                                                    <FormControl>
+                                                        <SelectTrigger className="w-full">
+                                                            <SelectValue placeholder="Select a credential"/>
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {credentialList.map((credential:any)=> (
+                                                            <SelectItem key={credential.id} value={credential.id}>
+                                                                <div className="flex items-center gap-2">
+                                                                    <Image src="/gemini.svg"
+                                                                    alt="Gemini"
+                                                                    width={16}
+                                                                    height={16}/>
+                                                                    {credential.name}
+                                                                </div>
+                                                            </SelectItem>
+                                                         ))}
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage />
+                                                </FormItem>
+                                                )}/>
+                    
+                      
+                       {/* <FormField control={form.control}
+                       name="method"
+                       render={({field})=>(
+                        <FormItem>
+                            <FormLabel>Method</FormLabel>
+                            <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            >
+                                <FormControl>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Select a method"/>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="GET">GET</SelectItem>
+                                        <SelectItem value="POST">POST</SelectItem>
+                                        <SelectItem value="PUT">PUT</SelectItem>
+                                        <SelectItem value="PATCH">PATCH</SelectItem>
+                                        <SelectItem value="DELETE">DELETE</SelectItem>
+                                    </SelectContent>
+                                </FormControl>
+
+                            </Select>
+                            <FormDescription>The HTTP method to use for the request.</FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                       )}/> */}
+
+                       {/* <FormField control={form.control}
+                       name="endpoint"
+                       render={({field})=>(
+                        <FormItem>
+                            <FormLabel>Endpoint URL</FormLabel>
+                            <FormControl>
+                            <Input placeholder="https://api.example.com/users/{{httpResponse.data.id}}" {...field}/>
+                            </FormControl>
+                          
+                            <FormDescription>
+                                Static URL or use {"{{variables}}" } for simple values or {"{{json variables}}"} to stringify objects
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                       )}/> */}
+{/* 
+                         {showBodyfield && ( */}
+                            <FormField control={form.control}
+                       name="systemPrompt"
+                       render={({field})=>(
+                        <FormItem>
+                            <FormLabel>System Prompt</FormLabel>
+                            <FormControl>
+                            <Textarea placeholder="You are a helpful assistant." {...field}  className="min-h-[120px] font-mono text-sm" />
+                            </FormControl>
+                          
+                            <FormDescription>
+                                Static URL or use {"{{variables}}" } for simple values or {"{{json variables}}"} to stringify objects
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                       )}/>
+                            <FormField control={form.control}
+                       name="userPrompt"
+                       render={({field})=>(
+                        <FormItem>
+                            <FormLabel>User Prompt</FormLabel>
+                            <FormControl>
+                            <Textarea placeholder="Summarize the following text:{{json httpResponse.data}}" {...field}  className="min-h-[120px] font-mono text-sm" />
+                            </FormControl>
+                          
+                            <FormDescription>
+                                The prompt to send to the AI , Use{"{{variables}}" } for simple values or {"{{json variables}}"} to stringify objects
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                       )}/>
+                            {/* <FormField control={form.control}
+                       name="model"
+                       render={({field})=>(
+                        <FormItem>
+                            <FormLabel>Model</FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select a model" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  
+                                  {AVAILABLE_MODELS.map((model)=>(
+                                    <SelectItem key={model} value={model}>{model}</SelectItem>
+                                  ))}
+                                     </SelectContent>
+
+                            </Select>
+                          
+                            <FormDescription>
+                                The Gemini model to use for the request.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                       )}/> */}
+
+
+
+                      
+                          <DialogFooter className="mt-4">
+                            <Button type="submit">Save Changes</Button>
+                          </DialogFooter>
+
+                    </form>
+                </Form>
+            </DialogContent>
+        </Dialog>
+    )
+}
