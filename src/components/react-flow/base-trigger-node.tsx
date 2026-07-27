@@ -47,7 +47,7 @@ export const BaseTriggerNode = memo(
 
             <WorkflowNode  name={name} description={description} onDelete={handleDelete} onSettings={onSettings}>
                 
-                <NodeStatusIndicator status={status} variant="border">
+                <NodeStatusIndicator status={status} variant="border" className="rounded-l-2xl" >
                 
                 <BaseNode status={status} onDoubleClick={onDoubleClick} className="rounded-l-2xl relative group">
                 <BaseNodeContent >

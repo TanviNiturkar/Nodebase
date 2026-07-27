@@ -1,5 +1,5 @@
 import { workflowsParams } from "@/features/workflows/params";
-import { createLoader } from "nuqs";
+import { createLoader } from "nuqs/server";
 import { executionsParams } from "../params";
 
 

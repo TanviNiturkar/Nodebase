@@ -111,6 +111,7 @@ export const HttpRequestDialog = ({
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Select a method"/>
                                     </SelectTrigger>
+                                     </FormControl>
                                     <SelectContent>
                                         <SelectItem value="GET">GET</SelectItem>
                                         <SelectItem value="POST">POST</SelectItem>
@@ -118,7 +119,7 @@ export const HttpRequestDialog = ({
                                         <SelectItem value="PATCH">PATCH</SelectItem>
                                         <SelectItem value="DELETE">DELETE</SelectItem>
                                     </SelectContent>
-                                </FormControl>
+                               
 
                             </Select>
                             <FormDescription>The HTTP method to use for the request.</FormDescription>

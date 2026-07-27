@@ -1,3 +1,5 @@
+
+"use client"
 import { ExecutionStatus } from "@/generated/prisma"
 import { CheckCircle2Icon, ClockIcon, Loader2Icon, XCircleIcon } from "lucide-react"
 import { useParams } from "next/navigation"

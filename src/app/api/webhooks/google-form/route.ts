@@ -7,8 +7,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
     try {
+        console.log("===== GOOGLE FORM WEBHOOK HIT =====");
         const url = new URL(request.url);
         const workflowId = url.searchParams.get("workflowId");
+        console.log("Workflow:", workflowId);
+
         if(!workflowId){
             return NextResponse.json(
                 {success : false , error : "Missing required query parameter : workflowId" },
@@ -25,13 +28,14 @@ export async function POST(request: NextRequest) {
             respondentEmail : body.respondentEmail,
             raw : body,
         }
-        
+        console.log("Sending event to Inngest...", formData);
         await sendWorkflowExecutionEvent({
             workflowId,
             initialData : {
                 googleForm : formData,
             }
         })
+        console.log("Event sent successfully.");
          return NextResponse.json({success : true},
         {status : 200}
         )
