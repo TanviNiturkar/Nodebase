@@ -23,6 +23,7 @@ export const nodeComponents = {
     [NodeType.ANTHROPIC] :AnthropicNode,
     [NodeType.DISCORD]  : DiscordNode,
     [NodeType.SLACK] : SlackNode ,
+    [NodeType.GEMINI] : GeminiNode,
 
 } as const satisfies NodeTypes; // Correct spelling: satisfies
 

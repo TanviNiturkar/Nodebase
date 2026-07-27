@@ -25,16 +25,20 @@
 "use server";
 import { DiscordChannel } from "@/inngest/channels/discord";
 import { httpRequestChannel } from "@/inngest/channels/http-request";
-import { SLACK_CHANNEL } from "@/inngest/channels/slack";
+import { slackChannel } from "@/inngest/channels/slack";
 import { inngest } from "@/inngest/client";
-import { getSubscriptionToken } from "inngest/realtime";
+import { getSubscriptionToken,Realtime } from "@inngest/realtime";
 
 // Use ReturnType to get the token type automatically
-export type slackToken = Awaited<ReturnType<typeof getSubscriptionToken>>;
+export type slackToken = Realtime.Token<
+  typeof slackChannel,
+  ["status"]
+>;
 
 export async function fetchslackRealtimeToken(): Promise<slackToken> {
-    return await getSubscriptionToken(inngest, {
-        channel: SLACK_CHANNEL,
+    const token = await getSubscriptionToken(inngest, {
+        channel: slackChannel(),
         topics: ["status"],
     });
+    return token;
 }

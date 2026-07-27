@@ -1,21 +1,13 @@
-import { Inngest, realtime, staticSchema } from "inngest";
-
-
+import {Realtime, channel, topic} from "@inngest/realtime" ;
 
 
 export const GOOGLE_FORM_TRIGGER_CHANNEL = "google-form-trigger" ;
-// 1. Client setup is simpler
-export const inngest = new Inngest({ id: "nodebase" });
 
 // 2. Define the channel using the new object syntax
-export const googleFormTriggerChannel = realtime.channel({
-    name: GOOGLE_FORM_TRIGGER_CHANNEL,
-    topics: {
-        status: {
-            schema: staticSchema<{
-                nodeId: string;
+export const googleFormTriggerChannel = channel(GOOGLE_FORM_TRIGGER_CHANNEL)
+    .addTopic(
+        topic("status").type<{
+            nodeId: string;
                 status: "loading" | "success" | "error";
             }>(),
-        },
-    },
-});
+        )

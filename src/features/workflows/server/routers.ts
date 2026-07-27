@@ -21,22 +21,49 @@ export const workflowsRouter = createTRPCRouter({
         })
         return workflow;
     }),
+create: protectedProcedure.mutation(async ({ ctx }) => {
+  try {
+    console.log("USER:", ctx.auth?.user);
 
-    create: premiumProcedure.mutation(({ctx}) => {
-        return prisma.workflow.create({
-            data: {
-                name: generateSlug(3),
-                userId: ctx.auth.user.id,
-                nodes : {
-                    create: {
-                        type : NodeType.INITIAL,
-                        position: {x:0,y:0},
-                        name: NodeType.INITIAL,
-                    }
-                }
-            },
-        })
-    }),
+    const result = await prisma.workflow.create({
+      data: {
+        name: generateSlug(3),
+        userId: ctx.auth.user.id,
+        nodes: {
+          create: {
+            type: NodeType.INITIAL,
+            position: { x: 0, y: 0 },
+            name: NodeType.INITIAL,
+          },
+        },
+      },
+    });
+
+    console.log("WORKFLOW CREATED:", result);
+
+    return result;
+  } catch (error) {
+    console.error("CREATE WORKFLOW ERROR:");
+    console.error(error);
+
+    throw error;
+  }
+}),
+    // create: premiumProcedure.mutation(({ctx}) => {
+    //     return prisma.workflow.create({
+    //         data: {
+    //             name: generateSlug(3),
+    //             userId: ctx.auth.user.id,
+    //             nodes : {
+    //                 create: {
+    //                     type : NodeType.INITIAL,
+    //                     position: {x:0,y:0},
+    //                     name: NodeType.INITIAL,
+    //                 }
+    //             }
+    //         },
+    //     })
+    // }),
     remove : 
     protectedProcedure
     .input(z.object({id:z.string()}))
@@ -77,6 +104,9 @@ export const workflowsRouter = createTRPCRouter({
             where : {id , userId : ctx.auth.user.id },
         });
         return await prisma.$transaction(async(tx)=> {
+            await tx.connection.deleteMany({
+                where : {workflowId : id},
+            })
             await tx.node.deleteMany({
                 where : {workflowId : id},
             })

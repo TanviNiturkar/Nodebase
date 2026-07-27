@@ -1,15 +1,13 @@
 
 import { NodeExecutor } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
-import ky, {type Options} from "ky";
+
 
 import Handlebars from "handlebars";
-import { httpRequestChannel } from "@/inngest/channels/http-request";
-import { th } from "date-fns/locale";
+
 import { createGoogleGenerativeAI} from "@ai-sdk/google"
 //import { AVAILABLE_MODELS } from "./dialog";
 import { geminiChannel } from "@/inngest/channels/gemini";
-import { create } from "node:domain";
 import { generateText } from "ai";
 import prisma from "@/lib/db";
 import { decrypt } from "@/lib/encryption";
@@ -35,34 +33,33 @@ export const geminiExecutor : NodeExecutor<GeminiData> = async({
     publish
 })=> {
 
-    await publish(geminiChannel, "status", {
-    nodeId,
-    status: "loading",
-});
-
+await publish(geminiChannel().status({
+         nodeId,
+         status: "loading",
+     })) ;
    
     if(!data.variableName) {
-        await publish(geminiChannel, "status", {
+        await publish(geminiChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Gemini node : Variable name is required to store AI response");
     }
 
     if(!data.credentialId){
-         await publish(geminiChannel, "status", {
+         await publish(geminiChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Gemini node : Credential is required to store AI response");
   
     }
 
     if(!data.userPrompt){
-        await publish(geminiChannel, "status", {
+        await publish(geminiChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Gemini node : User prompt is required to generate AI response");
     }
 
@@ -184,10 +181,10 @@ const google = createGoogleGenerativeAI({
 
         const text = steps[0].content[0].type === "text" ? steps[0].content[0].text : "" ;
 
-        await publish(geminiChannel, "status", {
+        await publish(geminiChannel().status({
             nodeId,
             status: "success",
-        }) ;
+        })) ;
 
         return {
             ...context,
@@ -197,10 +194,10 @@ const google = createGoogleGenerativeAI({
         }
 
     } catch(error){
-        await publish(geminiChannel, "status", {
+        await publish(geminiChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw error ;
     }
 

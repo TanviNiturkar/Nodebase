@@ -89,7 +89,7 @@ const { data : credentials , isLoading: isLoadingCredentials } = useCredentialBy
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>OpenAI</DialogTitle>
                     <DialogDescription>
@@ -98,24 +98,6 @@ const { data : credentials , isLoading: isLoadingCredentials } = useCredentialBy
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 mt-4">
-                      
-                       <FormField control={form.control}
-                       name="variableName"
-                       render={({field})=>(
-                        <FormItem>
-                            <FormLabel>Variable Name</FormLabel>
-                            <FormControl>
-                            <Input placeholder="myOpenAI" {...field}/>
-                            </FormControl>
-                          
-                            <FormDescription>
-                              Use this name to reference the result in other nodes:{" "} 
-                              {`{{${watchVariableName}.aiResponseaaa.text}}`}  </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                       )}/>
-
-                       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 mt-4">
                                             
                                              <FormField control={form.control}
                                              name="variableName"
@@ -128,7 +110,7 @@ const { data : credentials , isLoading: isLoadingCredentials } = useCredentialBy
                                                 
                                                   <FormDescription>
                                                     Use this name to reference the result in other nodes:{" "} 
-                                                    {`{{${watchVariableName}.aiResponseaaa.text}}`}  </FormDescription>
+                                                    {`{{${watchVariableName}.aiResponse.text}}`}  </FormDescription>
                                                   <FormMessage />
                                               </FormItem>
                                              )}/>
@@ -161,51 +143,7 @@ const { data : credentials , isLoading: isLoadingCredentials } = useCredentialBy
                                                                       )}/>
                                           
                                             
-                                             {/* <FormField control={form.control}
-                                             name="method"
-                                             render={({field})=>(
-                                              <FormItem>
-                                                  <FormLabel>Method</FormLabel>
-                                                  <Select
-                                                  onValueChange={field.onChange}
-                                                  defaultValue={field.value}
-                                                  >
-                                                      <FormControl>
-                                                          <SelectTrigger className="w-full">
-                                                              <SelectValue placeholder="Select a method"/>
-                                                          </SelectTrigger>
-                                                          <SelectContent>
-                                                              <SelectItem value="GET">GET</SelectItem>
-                                                              <SelectItem value="POST">POST</SelectItem>
-                                                              <SelectItem value="PUT">PUT</SelectItem>
-                                                              <SelectItem value="PATCH">PATCH</SelectItem>
-                                                              <SelectItem value="DELETE">DELETE</SelectItem>
-                                                          </SelectContent>
-                                                      </FormControl>
-                      
-                                                  </Select>
-                                                  <FormDescription>The HTTP method to use for the request.</FormDescription>
-                                                  <FormMessage />
-                                              </FormItem>
-                                             )}/> */}
-                      
-                                             {/* <FormField control={form.control}
-                                             name="endpoint"
-                                             render={({field})=>(
-                                              <FormItem>
-                                                  <FormLabel>Endpoint URL</FormLabel>
-                                                  <FormControl>
-                                                  <Input placeholder="https://api.example.com/users/{{httpResponse.data.id}}" {...field}/>
-                                                  </FormControl>
-                                                
-                                                  <FormDescription>
-                                                      Static URL or use {"{{variables}}" } for simple values or {"{{json variables}}"} to stringify objects
-                                                  </FormDescription>
-                                                  <FormMessage />
-                                              </FormItem>
-                                             )}/> */}
-                      {/* 
-                                               {showBodyfield && ( */}
+                                          
                                                   <FormField control={form.control}
                                              name="systemPrompt"
                                              render={({field})=>(
@@ -314,7 +252,7 @@ const { data : credentials , isLoading: isLoadingCredentials } = useCredentialBy
                        )}/> */}
 {/* 
                          {showBodyfield && ( */}
-                            <FormField control={form.control}
+                            {/* <FormField control={form.control}
                        name="systemPrompt"
                        render={({field})=>(
                         <FormItem>
@@ -331,19 +269,19 @@ const { data : credentials , isLoading: isLoadingCredentials } = useCredentialBy
                        )}/>
                             <FormField control={form.control}
                        name="userPrompt"
-                       render={({field})=>(
-                        <FormItem>
-                            <FormLabel>User Prompt</FormLabel>
-                            <FormControl>
-                            <Textarea placeholder="Summarize the following text:{{json httpResponse.data}}" {...field}  className="min-h-[120px] font-mono text-sm" />
-                            </FormControl>
+                       render={({field})=>( */}
+                        {/* // <FormItem>
+                        //     <FormLabel>User Prompt</FormLabel>
+                        //     <FormControl>
+                        //     <Textarea placeholder="Summarize the following text:{{json httpResponse.data}}" {...field}  className="min-h-[120px] font-mono text-sm" />
+                        //     </FormControl>
                           
-                            <FormDescription>
-                                The prompt to send to the AI , Use{"{{variables}}" } for simple values or {"{{json variables}}"} to stringify objects
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                       )}/>
+                        //     <FormDescription>
+                        //         The prompt to send to the AI , Use{"{{variables}}" } for simple values or {"{{json variables}}"} to stringify objects
+                        //     </FormDescription>
+                        //     <FormMessage />
+                        // </FormItem>
+                       )}/> */}
                             {/* <FormField control={form.control}
                        name="model"
                        render={({field})=>(
@@ -372,11 +310,9 @@ const { data : credentials , isLoading: isLoadingCredentials } = useCredentialBy
 
 
                       
-                          <DialogFooter className="mt-4">
-                            <Button type="submit">Save Changes</Button>
-                          </DialogFooter>
+                      
 
-                    </form>
+                    
                 </Form>
             </DialogContent>
         </Dialog>

@@ -4,17 +4,7 @@ import { NonRetriableError } from "inngest";
 import ky, {type Options} from "ky";
 import {decode} from "html-entities"
 import Handlebars from "handlebars";
-import { httpRequestChannel } from "@/inngest/channels/http-request";
-import { th } from "date-fns/locale";
-import { createGoogleGenerativeAI} from "@ai-sdk/google"
-//import { AVAILABLE_MODELS } from "./dialog";
-import { geminiChannel } from "@/inngest/channels/gemini";
-import { create } from "node:domain";
-import { generateText } from "ai";
-import prisma from "@/lib/db";
 import { DiscordChannel } from "@/inngest/channels/discord";
-import { Hand } from "lucide-react";
-
 
 Handlebars.registerHelper("json", (context) => {
     const stringified = JSON.stringify(context , null , 2);
@@ -36,10 +26,11 @@ export const discordExecutor : NodeExecutor<DiscordData> = async({
     publish
 })=> {
 
-    await publish(DiscordChannel, "status", {
-    nodeId,
-    status: "loading",
-});
+    await publish(DiscordChannel().status({
+        nodeId,
+        status: "loading",
+    })) ;
+
 
  
 //     try{
@@ -127,27 +118,27 @@ const content = decode(rawContent)
         const result = await step.run("discord-webhook",async() =>{
               
     if(!data.variableName) {
-        await publish(DiscordChannel, "status", {
+        await publish(DiscordChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Discord node : Variable name is required to store AI response");
     }
 
     if(!data.webhookUrl){
-         await publish(DiscordChannel, "status", {
+         await publish(DiscordChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Discord node : webhook URL is required to store AI response");
   
     }
 
     if(!data.content){
-        await publish(DiscordChannel, "status", {
+        await publish(DiscordChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Discord node : Message content is required to generate AI response");
     }
 
@@ -163,18 +154,18 @@ const content = decode(rawContent)
                 }
             }
         })
-        await publish(DiscordChannel, "status", {
+        await publish(DiscordChannel().status({
             nodeId,
             status: "success",
-        }) ;
+        })) ;
 
     return result ;
 
     } catch(error){
-        await publish(DiscordChannel, "status", {
+        await publish(DiscordChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw error ;
     }
 

@@ -24,13 +24,13 @@ export const httpRequestExecutor : NodeExecutor<HttpRequestData> = async({
     context,
     step,
     nodeId,
-    publish
+    publish ,
 })=> {
 
-    await publish(httpRequestChannel, "status", {
-    nodeId,
-    status: "loading",
-});
+    await publish(httpRequestChannel().status({
+        nodeId,
+        status: "loading",
+    })) ;
 
    
 
@@ -46,11 +46,11 @@ export const httpRequestExecutor : NodeExecutor<HttpRequestData> = async({
         throw new NonRetriableError("HTTP method is required for HTTP request node");
     }
         if(!data.variableName) {
-            await publish
-            (httpRequestChannel, "status", {
-                nodeId,
-                status: "error",
-            }) ;
+           await publish(httpRequestChannel().status({
+        nodeId,
+        status: "error",
+    })) ;
+
         throw new NonRetriableError("Variable name is required to store HTTP response");
     }
 
@@ -96,17 +96,17 @@ export const httpRequestExecutor : NodeExecutor<HttpRequestData> = async({
 
     })
 
-        await publish(httpRequestChannel, "status", {
+        await publish(httpRequestChannel().status({
         nodeId,
         status: "success",
-    }) ;
+    }) ) ;
         return result;
 }
 catch(error){
-     await publish(httpRequestChannel, "status", {
+     await publish(httpRequestChannel().status({
         nodeId,
         status: "error",
-    }) ;
+    }) ) ;
     throw error ;
 }
 

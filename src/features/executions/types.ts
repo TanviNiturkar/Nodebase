@@ -23,6 +23,7 @@
 
 
 import { inngest } from "@/inngest/client";
+import { Realtime } from "@inngest/realtime";
 import { GetStepTools } from "inngest";
 
 export type WorkflowContext = Record<string, unknown>;
@@ -37,7 +38,7 @@ export interface NodeExecutorParams<TData = Record<string, unknown>> {
     step: ActualStepTools;
     // THE NUCLEAR FIX: Define the function signature manually 
     // to stop the internal "Property id is missing" error.
-    publish: (channel: any, topic: any, data: any) => Promise<any>;
+    publish:Realtime.PublishFn ;
 }
 
 export type NodeExecutor<TData = Record<string, unknown>> = 

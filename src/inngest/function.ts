@@ -19,13 +19,15 @@ import { slackChannel } from "./channels/slack";
 
 
 export const executeWorkflow = inngest.createFunction(
-  { id: "execute-workflow", retries:0 ,
-     onFailure: async ({ event,step}) =>{ return prisma.execution.update({ where: { inngestEventId : event.data.event.id}, data : { status : ExecutionStatus.FAILED , error : event.data.error.message, errorStack : event.data.error.stack}})},
-     triggers: { event: "workflows/execute.workflow" , channels : [
+  { id: "execute-workflow"} ,// ,{
+   //  onFailure: async ({ event,step}) =>{ return prisma.execution.update({ where: { inngestEventId : event.data.event.id}, data : { status : ExecutionStatus.FAILED , error : event.data.error.message, errorStack : event.data.error.stack}})},
+    // triggers: 
+     { event: "workflows/execute.workflow" , 
+      channels : [
     httpRequestChannel, manualTriggerChannel, googleFormTriggerChannel, stripeTriggerChannel,geminiChannel,openAiChannel,AnthropicChannel,DiscordChannel,slackChannel
   ] } ,
- },
-  async ({ event, step }) => {
+ 
+  async ({ event, step ,publish}) => {
     const inngestEventId = event.id ;
      const workflowId = event.data.workflowId;
 
@@ -46,7 +48,7 @@ export const executeWorkflow = inngest.createFunction(
           where : {id : workflowId},
           include : {
             nodes : true ,
-            edges : true ,
+           // edges : true ,
             connections : true ,
           }
         })
@@ -74,7 +76,7 @@ export const executeWorkflow = inngest.createFunction(
           userId ,
           context,
           step ,
-          publish : step.realtime.publish, 
+          publish 
         })
       }
      

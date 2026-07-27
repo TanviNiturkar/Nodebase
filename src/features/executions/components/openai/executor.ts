@@ -31,36 +31,36 @@ export const openAiExecutor : NodeExecutor<OpenAiData> = async({
     publish
 })=> {
 
-    await publish(openAiChannel, "status", {
-    nodeId,
-    status: "loading",
-});
+  await publish(openAiChannel().status({
+         nodeId,
+         status: "loading",
+     })) ;
 
    
     if(!data.variableName) {
-        await publish(openAiChannel, "status", {
+        await publish(openAiChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("OpenAI node : Variable name is required to store AI response");
     }
 
 
     
         if(!data.credentialId){
-             await publish(openAiChannel, "status", {
+             await publish(openAiChannel().status({
                 nodeId,
                 status: "error",
-            }) ;
+            })) ;
             throw new NonRetriableError("OpenAI node : Credential is required to store AI response");
       
         }
 
     if(!data.userPrompt){
-        await publish(openAiChannel, "status", {
+        await publish(openAiChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("OpenAI node : User prompt is required to generate AI response");
     }
 
@@ -183,10 +183,10 @@ const Openai = createOpenAI({
 
         const text = steps[0].content[0].type === "text" ? steps[0].content[0].text : "" ;
 
-        await publish(openAiChannel, "status", {
+        await publish(openAiChannel().status({
             nodeId,
             status: "success",
-        }) ;
+        })) ;
 
         return {
             ...context,
@@ -196,10 +196,10 @@ const Openai = createOpenAI({
         }
 
     } catch(error){
-        await publish(openAiChannel, "status", {
+        await publish(openAiChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        }) );
         throw error ;
     }
 

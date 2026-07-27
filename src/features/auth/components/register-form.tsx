@@ -34,12 +34,13 @@ const form = useForm<RegisterFormValues>({
     defaultValues: {
         email: "",
         password: "",
+        confirmPassword: "",
     },
 });
 
 const signInGithub = async() =>{
     await authClient.signIn.social({
-        provider: "google"
+        provider: "github"
     } , {
         onSuccess : ()=>{
             router.push("/")

@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FormField ,Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useCredentialByType } from "@/features/credentials/hooks/use-credentials";
@@ -88,7 +87,7 @@ export const GeminiDialog = ({
     const credentialList = (credentials as any) || [];
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Gemini</DialogTitle>
                     <DialogDescription>
@@ -109,7 +108,7 @@ export const GeminiDialog = ({
                           
                             <FormDescription>
                               Use this name to reference the result in other nodes:{" "} 
-                              {`{{${watchVariableName}.aiResponseaaa.text}}`}  </FormDescription>
+                              {`{{${watchVariableName}.aiResponse.text}}`}  </FormDescription>
                             <FormMessage />
                         </FormItem>
                        )}/>

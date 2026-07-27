@@ -32,33 +32,33 @@ export const anthropicExecutor : NodeExecutor<AnthropicData> = async({
     publish
 })=> {
 
-    await publish(AnthropicChannel, "status", {
-    nodeId,
-    status: "loading",
-});
+await publish(AnthropicChannel().status({
+         nodeId,
+         status: "loading",
+     })) ;
 
    
     if(!data.variableName) {
-        await publish(AnthropicChannel, "status", {
+        await publish(AnthropicChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Anthropic node : Variable name is required to store AI response");
     }
      if(!data.credentialId){
-             await publish(AnthropicChannel, "status", {
+             await publish(AnthropicChannel().status({
                 nodeId,
                 status: "error",
-            }) ;
+            })) ;
             throw new NonRetriableError("Anthropic node : Credential is required to store AI response");
       
         }
 
     if(!data.userPrompt){
-        await publish(AnthropicChannel, "status", {
+        await publish(AnthropicChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Anthropic node : User prompt is required to generate AI response");
     }
 
@@ -182,10 +182,10 @@ const Anthropic = createAnthropic({
 
         const text = steps[0].content[0].type === "text" ? steps[0].content[0].text : "" ;
 
-        await publish(AnthropicChannel, "status", {
+        await publish(AnthropicChannel().status({
             nodeId,
             status: "success",
-        }) ;
+        })) ;
 
         return {
             ...context,
@@ -195,10 +195,10 @@ const Anthropic = createAnthropic({
         }
 
     } catch(error){
-        await publish(AnthropicChannel, "status", {
+        await publish(AnthropicChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw error ;
     }
 

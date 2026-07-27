@@ -88,7 +88,7 @@ export const DiscordDialog = ({
    
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Discord</DialogTitle>
                     <DialogDescription>
@@ -109,7 +109,7 @@ export const DiscordDialog = ({
                           
                             <FormDescription>
                               Use this name to reference the result in other nodes:{" "} 
-                              {`{{${watchVariableName}.aiResponseaaa.text}}`}  </FormDescription>
+                              {`{{${watchVariableName}.aiResponse.text}}`}  </FormDescription>
                             <FormMessage />
                         </FormItem>
                        )}/>
@@ -140,7 +140,7 @@ export const DiscordDialog = ({
                             </FormControl>
                           
                             <FormDescription>
-                               The message to send. Use {"{{variables}}"} for simple values or {"{{json variable}}"} to stringigy objects   </FormDescription>
+                               The message to send. Use {"{{variables}}"} for simple values or {"{{json variable}}"} to stringify objects   </FormDescription>
                             <FormMessage />
                         </FormItem>
                        )}/>
@@ -154,7 +154,7 @@ export const DiscordDialog = ({
                                                 <Input placeholder="Workflow Bot" {...field}/>
                                               </FormControl>
                                               <FormDescription>
-                                                 Overrid the webhook's  default username </FormDescription>
+                                                 Override the webhook's  default username </FormDescription>
                                                 <FormMessage />
                                                 </FormItem>
                                                 )}/>

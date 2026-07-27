@@ -30,10 +30,10 @@ export const slackExecutor : NodeExecutor<SlackData> = async({
     publish
 })=> {
 
-    await publish(slackChannel, "status", {
-    nodeId,
-    status: "loading",
-});
+await publish(slackChannel().status({
+         nodeId,
+         status: "loading",
+     })) ;
 
  
 //     try{
@@ -120,27 +120,27 @@ const content = decode(rawContent)
         const result = await step.run("Slack-webhook",async() =>{
               
     if(!data.variableName) {
-        await publish(slackChannel, "status", {
+        await publish(slackChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Slack node : Variable name is required to store AI response");
     }
 
     if(!data.webhookUrl){
-         await publish(slackChannel, "status", {
+         await publish(slackChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Slack node : webhook URL is required to store AI response");
   
     }
 
     if(!data.content){
-        await publish(slackChannel, "status", {
+        await publish(slackChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        })) ;
         throw new NonRetriableError("Slack node : Message content is required to generate AI response");
     }
 
@@ -156,18 +156,18 @@ const content = decode(rawContent)
                 }
             }
         })
-        await publish(slackChannel, "status", {
+        await publish(slackChannel().status({
             nodeId,
             status: "success",
-        }) ;
+        })) ;
 
     return result ;
 
     } catch(error){
-        await publish(slackChannel, "status", {
+        await publish(slackChannel().status({
             nodeId,
             status: "error",
-        }) ;
+        }) );
         throw error ;
     }
 

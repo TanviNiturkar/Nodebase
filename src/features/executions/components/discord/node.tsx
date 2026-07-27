@@ -2,14 +2,14 @@
  
 import { BaseExecutionNode } from "@/components/base-execution-node";
 import {Node , NodeProps , useReactFlow} from "@xyflow/react"
-import { GlobeIcon } from "lucide-react";
+
 import { memo, useState } from "react";
 import {  DiscordDialog, DiscordFormValues } from "./dialog";
 import { useNodeStatus } from "../../hooks/use-node-status";
-import { HTTP_REQUEST_CHANNEL, httpRequestChannel } from "@/inngest/channels/http-request";
+
 import { fetchDiscordRealtimeToken } from "./action";
-import { GEMINI_CHANNEL } from "@/inngest/channels/gemini";
-import { fetchGeminiRealtimeToken } from "@/features/triggers/components/manualTrigger/action";
+
+
 import { DISCORD_CHANNEL } from "@/inngest/channels/discord";
 
 

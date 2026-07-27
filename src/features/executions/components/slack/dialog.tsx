@@ -88,7 +88,7 @@ export const SlackDialog = ({
    
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Slack</DialogTitle>
                     <DialogDescription>
@@ -109,7 +109,7 @@ export const SlackDialog = ({
                           
                             <FormDescription>
                               Use this name to reference the result in other nodes:{" "} 
-                              {`{{${watchVariableName}.aiResponseaaa.text}}`}  </FormDescription>
+                              {`{{${watchVariableName}.messageContent}}`}  </FormDescription>
                             <FormMessage />
                         </FormItem>
                        )}/>

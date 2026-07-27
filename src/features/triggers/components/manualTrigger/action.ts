@@ -2,16 +2,20 @@
 "use server";
 
 import { geminiChannel } from "@/inngest/channels/gemini";
-import { manualTriggerChannel } from "@/inngest/channels/manual-request";
+import { MANUAL_TRIGGER_CHANNEL, manualTriggerChannel } from "@/inngest/channels/manual-request";
 import { inngest } from "@/inngest/client";
-import { getSubscriptionToken } from "inngest/realtime";
+import { getSubscriptionToken, Realtime } from "@inngest/realtime";
 
 // Use ReturnType to get the token type automatically
-export type GeminiToken = Awaited<ReturnType<typeof getSubscriptionToken>>;
+export type ManualTriggerToken = Realtime.Token<
+  typeof manualTriggerChannel,
+  ["status"]
+>;
 
-export async function fetchGeminiRealtimeToken(): Promise<GeminiToken> {
-    return await getSubscriptionToken(inngest, {
-        channel: geminiChannel,
+export async function fetchManualTriggerRealtimeToken(): Promise<ManualTriggerToken> {
+   const token = await getSubscriptionToken(inngest, {
+        channel: manualTriggerChannel(),
         topics: ["status"],
     });
+   return token;
 }

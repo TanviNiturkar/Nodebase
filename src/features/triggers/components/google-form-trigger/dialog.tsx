@@ -36,7 +36,7 @@ export const GoogleFormTriggerDialog = ({
     }
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Google Form Trigger Configuration</DialogTitle>
                     <DialogDescription>
@@ -76,7 +76,7 @@ export const GoogleFormTriggerDialog = ({
                                 toast.error("Failed to copy Google Apps Script. Please try copying manually.") 
                             }
                         }}>
-                            <CopyIcon className="size-4" mr-2 />
+                            <CopyIcon className="size-4 mr-2"  />
                             Copy Google App Script
                         </Button>
                         <p className="text-xs text-muted-foreground">This script includes your webhook URL and handles form submissions.</p>

@@ -35,7 +35,7 @@ const form = useForm<LoginFormValues>({
 
 const signInGithub = async() =>{
     await authClient.signIn.social({
-        provider: "google"
+        provider: "github"
     } , {
         onSuccess : ()=>{
             router.push("/")

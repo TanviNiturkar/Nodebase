@@ -2,21 +2,19 @@
  
 import { BaseExecutionNode } from "@/components/base-execution-node";
 import {Node , NodeProps , useReactFlow} from "@xyflow/react"
-import { GlobeIcon } from "lucide-react";
 import { memo, useState } from "react";
 import {  GeminiDialog, GeminiFormValues } from "./dialog";
 import { useNodeStatus } from "../../hooks/use-node-status";
-import { HTTP_REQUEST_CHANNEL, httpRequestChannel } from "@/inngest/channels/http-request";
-import { fetchHttpRequestRealtimeToken } from "./action";
+
+import { fetchGeminiRealtimeToken } from "./action";
 import { GEMINI_CHANNEL } from "@/inngest/channels/gemini";
-import { fetchGeminiRealtimeToken } from "@/features/triggers/components/manualTrigger/action";
 
 
 
 type GeminiNodeData = {
     variableName? : string ;
     credentialId?:string
-  // model? : typeof AVAILABLE_MODELS[number] ;
+ // model? : "gemini-1.5" | "gemini-2.0" | "gemini-2.0-flash" | "gemini-2.0-32k" | "gemini-2.0-flash-32k" ;
    systemPrompt? : string ;
    userPrompt? : string ;
 }
