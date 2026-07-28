@@ -22,12 +22,13 @@ A production-ready workflow automation platform inspired by <b>Zapier</b> and <b
 # 🚀 Live Demo
 
 🌐 **Website:** https://nodebase-xi-indol.vercel.app
+📂 Repository: https://github.com/TanviNiturkar/nodebase
 
 ---
 
 # 🎥 Feature Demo
 
-> 
+ A quick walkthrough of creating and executing a workflow in Nodebase.
 
 ![Nodebase Demo](https://raw.githubusercontent.com/TanviNiturkar/assets/main/nodebaseGif.gif)
 
@@ -356,7 +357,7 @@ Connected API keys are:
 Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/nodebase.git
+git clone https://github.com/TanviNiturkar/nodebase.git
 
 cd nodebase
 ```
@@ -454,6 +455,15 @@ src/
 - Docker deployment
 
 ---
+# 💡 Why I Built Nodebase
+
+Nodebase was built to understand how modern workflow automation platforms like Zapier and n8n work under the hood.
+
+Instead of focusing only on the user interface, I wanted to design the core execution engine myself—from dependency resolution using graph algorithms, to durable background execution with Inngest, encrypted credential storage, real-time node updates, authentication, and subscription billing.
+
+The goal was to build a production-ready SaaS application that demonstrates full-stack engineering, system design, and workflow orchestration concepts.
+
+---
 
 # 📄 License
 
@@ -465,6 +475,6 @@ This project was built for learning, portfolio, and demonstration purposes.
 
 ### ⭐ If you found this project interesting, consider giving it a star!
 
-Built with ❤️ by **Tanvi Niturkar**
+Built and designed with ❤️ by **Tanvi Niturkar**
 
 </div>
