@@ -10,5 +10,5 @@ export const authClient = createAuthClient({
   plugins: [
 polarClient()
   ],
-  baseURL: process.env.NEXT_PUBLIC_APP_URL, // ← add this
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL, // ← add this
 });
