@@ -21,47 +21,33 @@ A production-ready workflow automation platform inspired by <b>Zapier</b> and <b
 
 # 🚀 Live Demo
 
-🌐 **Website:** https://YOUR_LIVE_URL
+🌐 **Website:** https://nodebase-xi-indol.vercel.app
 
 ---
 
 # 🎥 Feature Demo
 
-> *(Add your workflow demo GIF here)*
+> *Coming Soon*
 
-```md
-![Nodebase Demo](assets/demo.gif)
-```
+![Nodebase Demo](https://raw.githubusercontent.com/TanviNiturkar/assets/main/nodebaseGif.gif)
 
 ---
 
 # 📸 Screenshots
 
-> *(Add screenshots after uploading them to the assets folder)*
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TanviNiturkar/assets/main/dashboard.png" width="48%">
+  <img src="https://raw.githubusercontent.com/TanviNiturkar/assets/main/workflow.png" width="48%">
+</p>
 
-## Dashboard
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TanviNiturkar/assets/main/workflows.png" width="48%">
+  <img src="https://raw.githubusercontent.com/TanviNiturkar/assets/main/execution.png" width="48%">
+</p>
 
-```md
-![Dashboard](assets/dashboard.png)
-```
-
-## Workflow Editor
-
-```md
-![Workflow Editor](assets/workflow-editor.png)
-```
-
-## Execution
-
-```md
-![Execution](assets/execution.png)
-```
-
-## Credentials
-
-```md
-![Credentials](assets/credentials.png)
-```
+<p align="center">
+  <img src="https://raw.githubusercontent.com/TanviNiturkar/assets/main/credential.png" width="48%">
+</p>
 
 ---
 
