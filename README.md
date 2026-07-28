@@ -27,7 +27,7 @@ A production-ready workflow automation platform inspired by <b>Zapier</b> and <b
 
 # 🎥 Feature Demo
 
-> *Coming Soon*
+> 
 
 ![Nodebase Demo](https://raw.githubusercontent.com/TanviNiturkar/assets/main/nodebaseGif.gif)
 
@@ -46,7 +46,7 @@ A production-ready workflow automation platform inspired by <b>Zapier</b> and <b
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/TanviNiturkar/assets/main/credential.png" width="48%">
+  <img src="https://raw.githubusercontent.com/TanviNiturkar/assets/main/credentials.png" width="48%">
 </p>
 
 ---
