@@ -33,7 +33,7 @@ export function WorkflowNode({
         }
         {children}
         {name && (
-            <NodeToolbar position={Position.Bottom} isVisible className="maz-w-[200px] text-center">
+            <NodeToolbar position={Position.Bottom} isVisible className="max-w-[200px] text-center">
                 <p className="font-medium">{name}</p>
                 {description && (
                     <p className="text-muted-foreground truncate text-sm">{description}</p>
