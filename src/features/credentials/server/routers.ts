@@ -19,7 +19,7 @@ export const CredentialsRouter = createTRPCRouter({
         const {name , value , type} = input ;
         return prisma.credential.create({
             data: {
-                name: generateSlug(3),
+                name:name,
                 userId: ctx.auth.user.id,
                 value: encrypt(value),
                 type: type
