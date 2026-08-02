@@ -87,7 +87,7 @@ export const CredentialsError = () => {
 export const CredentialsEmpty = () => {
     const router = useRouter();
     const handleCreate = ()=>{
-          router.push(`/Credentials/new`);
+          router.push(`/credentials/new`);
            
     }
     return (
@@ -112,7 +112,7 @@ export const CredentialItem = ({data}:{data:DbCredential})=>{
     const logo = credentialLogos[data.type] || "/openai.svg"
     return (
         <EntityItem 
-        href={`/Credentials/${data.id}`}  
+        href={`/credentials/${data.id}`}  
         title={data.name}
         subtitle={
             <>
