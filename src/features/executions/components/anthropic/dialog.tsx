@@ -59,7 +59,7 @@ export const AnthropicDialog = ({
         resolver : zodResolver(formschema) ,
         defaultValues : {
             variableName : defaultValues?.variableName || "" ,
-            credentialId : defaultValues?.variableName || "",
+            credentialId : defaultValues?.credentialId || "",
           //  model : defaultValues?.model || AVAILABLE_MODELS[0] ,
             systemPrompt : defaultValues?.systemPrompt || "",
             userPrompt : defaultValues?.userPrompt || ""
@@ -70,7 +70,7 @@ export const AnthropicDialog = ({
         if(open){
             form.reset({
                 variableName : defaultValues?.variableName || "" ,
-                 credentialId : defaultValues?.variableName || "",
+                 credentialId : defaultValues?.credentialId || "",
           //  model : defaultValues?.model || AVAILABLE_MODELS[0] ,
             systemPrompt : defaultValues?.systemPrompt || "",
             userPrompt : defaultValues?.userPrompt || ""
